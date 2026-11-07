@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>چک‌لیست هفتگی من</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#FAF9FF;--card:#FFFFFF;--ink:#2A2650;--mute:#6B6A85;--line:#E6E3F6;--gold:#D9B45A;--field:#FFFFFF;
+  --hero1:#6D28D9;--hero2:#1E1B4B;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#13112B;--card:#1D1A3D;--ink:#EDEBFF;--mute:#A9A6CC;--line:#322E5E;--field:#252148;--hero1:#5B21B6;--hero2:#0F0D26}
+}
+:root[data-theme="dark"]{--bg:#13112B;--card:#1D1A3D;--ink:#EDEBFF;--mute:#A9A6CC;--line:#322E5E;--field:#252148;--hero1:#5B21B6;--hero2:#0F0D26}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;line-height:1.7}
+.wrap{max-width:720px;margin:0 auto;padding:14px 14px 40px}
+.hero{position:relative;overflow:hidden;border-radius:28px;padding:22px 22px 20px;color:#fff;background:linear-gradient(120deg,var(--hero1),var(--hero2));box-shadow:0 14px 34px rgba(80,50,180,.28)}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero:before{width:220px;height:220px;left:-70px;top:-90px}
+.hero:after{width:150px;height:150px;right:30%;bottom:-80px;background:rgba(217,180,90,.18)}
+.brand{position:relative;display:inline-block;border:1.5px solid var(--gold);color:#F5E3B0;border-radius:999px;padding:2px 14px;font-size:12.5px;font-weight:600;background:rgba(255,255,255,.08)}
+.hero h1{position:relative;margin:10px 0 0;font-size:28px;font-weight:800}
+.hero .bar{position:relative;width:84px;height:4px;border-radius:4px;background:var(--gold);margin:6px 0 8px}
+.hero p{position:relative;margin:0;font-size:13.5px;color:#E4DEFF}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px 16px;margin-top:14px}
+.fields{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:560px){.fields{grid-template-columns:1.4fr 1fr}}
+label.f{display:block;font-size:12.5px;color:var(--mute)}
+input.t,textarea{width:100%;font:inherit;font-size:15px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:14px;padding:9px 12px;margin-top:3px}
+input.t:focus,textarea:focus{outline:2px solid #8B5CF6;outline-offset:1px}
+.wk{font-weight:600;padding:9px 12px;margin-top:3px;border:1.5px dashed var(--line);border-radius:14px}
+.prog{display:flex;align-items:center;gap:14px}
+.ring{--p:0;width:78px;height:78px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--gold) calc(var(--p)*1%),var(--line) 0)}
+.ring span{width:60px;height:60px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-weight:800;font-size:17px}
+.prog b{display:block;font-size:15px}.prog small{color:var(--mute);font-size:12.5px}
+.sec{margin-top:18px}
+.sec h2{margin:0 0 8px;padding:7px 14px;border-radius:16px;font-size:16.5px;font-weight:800;color:var(--c);background:color-mix(in srgb,var(--c) 13%,var(--card));border-right:6px solid var(--c);display:flex;justify-content:space-between;align-items:center}
+.sec h2 em{font-style:normal;font-size:12.5px;font-weight:600;color:var(--mute)}
+.habit{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px 12px 8px;margin-bottom:8px}
+.habit .top{display:flex;justify-content:space-between;gap:8px;font-size:14.5px;font-weight:600}
+.habit .top small{color:var(--mute);font-weight:400;flex:none}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
+.chip{appearance:none;border:0;background:none;font:inherit;color:var(--mute);padding:2px 0 0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:11.5px;-webkit-tap-highlight-color:transparent}
+.chip i{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--c);background:var(--card);display:grid;place-items:center;transition:.15s}
+.chip[aria-pressed="true"] i{background:var(--c)}
+.chip[aria-pressed="true"] i:after{content:"";width:8px;height:15px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(40deg) translate(-1px,-1px)}
+.chip.today{color:var(--ink);font-weight:800}
+.chip.today i{box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 28%,transparent)}
+.chip:focus-visible i{outline:2px solid var(--ink);outline-offset:2px}
+.notes{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:560px){.notes{grid-template-columns:1fr 1fr}}
+textarea{min-height:92px;resize:vertical}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.btn{appearance:none;font:inherit;font-weight:600;font-size:14px;border:0;border-radius:14px;padding:11px 16px;cursor:pointer;background:#5B54D6;color:#fff}
+.btn.alt{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn.danger.arm{background:#DC2626;color:#fff;border-color:#DC2626}
+#out{display:none;margin-top:10px}
+.msg{margin-top:8px;font-size:13px;color:var(--mute);min-height:20px}
+footer{text-align:center;margin-top:22px;color:var(--mute);font-size:13px}
+footer b{display:block;color:#5B54D6;margin-top:4px;font-size:15px}
+:root[data-theme="dark"] footer b{color:#B7B2FF}
+@media print{
+  body{background:#fff;color:#000}.btns,.msg,#out{display:none!important}
+  .hero{box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sec h2,.chip i,.ring,.chip[aria-pressed="true"] i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .habit,.card{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <span class="brand">گروه مشاور سروش حسینی</span>
+    <h1>چک‌لیست هفتگی من</h1>
+    <div class="bar"></div>
+    <p>هر روز یک قدم کوچک؛ بعد از انجام هر عادت، دایره‌اش را بزن.</p>
+  </div>
+
+  <div class="card fields">
+    <div><label class="f" for="nm">نام و نام خانوادگی</label><input class="t" id="nm" type="text" autocomplete="name" placeholder="اسمت را اینجا بنویس"></div>
+    <div><span class="f" style="font-size:12.5px;color:var(--mute)">هفته‌ی جاری</span><div class="wk" id="wk"></div></div>
+  </div>
+
+  <div class="card prog">
+    <div class="ring" id="ring"><span id="pct">۰٪</span></div>
+    <div><b id="pmsg">شروع کن!</b><small id="pcnt"></small></div>
+  </div>
+
+  <div id="secs"></div>
+
+  <div class="card notes" style="margin-top:18px">
+    <div><label class="f" for="n1" style="color:#10A37F;font-weight:600">بزرگ‌ترین موفقیتم در این هفته</label><textarea id="n1" placeholder="چه کاری برایم خوب پیش رفت؟"></textarea></div>
+    <div><label class="f" for="n2" style="color:#5B54D6;font-weight:600">هفته‌ی آینده می‌خواهم بهتر کنم</label><textarea id="n2" placeholder="روی چه چیزی تمرکز می‌کنم؟"></textarea></div>
+  </div>
+
+  <div class="btns">
+    <button class="btn" id="share">ارسال در تلگرام به مشاور</button>
+    <button class="btn alt" id="print">دریافت PDF / چاپ</button>
+    <button class="btn alt danger" id="reset">شروع دوباره‌ی هفته</button>
+  </div>
+  <div class="msg" id="msg" role="status"></div>
+  <textarea id="out" readonly></textarea>
+
+  <footer>یادت باشد: هدف کامل‌بودن نیست، ادامه‌دادن است<b>گروه مشاور سروش حسینی</b></footer>
+</div>
+
+<script>
+(function(){
+var DAYS=["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنج‌شنبه","جمعه"];
+var SHORT=["ش","ی","د","س","چ","پ","ج"];
+var SECS=[
+ {t:"برنامه‌ریزی و مطالعه",c:"#5B54D6",h:["برنامه‌ی فردا را از شب قبل نوشتم","به برنامه‌ی مطالعه‌ام رسیدم","یک جلسه مرور یا تست‌زنی داشتم","در زمان مطالعه گوشی دور از دسترس بود"]},
+ {t:"خواب درست",c:"#8B5CF6",h:["سر ساعت مقرر خوابیدم","هفت تا هشت ساعت خواب داشتم","یک ساعت قبل خواب، بدون صفحه‌نمایش"]},
+ {t:"روتین‌های سالم",c:"#10A37F",h:["صبحانه خوردم","آب کافی نوشیدم","بیست دقیقه پیاده‌روی یا ورزش کردم","نور آفتاب گرفتم"]},
+ {t:"آرامش و ارتباط",c:"#E08A1E",h:["چند دقیقه استراحت یا نفس عمیق داشتم","با خانواده یا دوستانم گفتگو کردم","یک نکته‌ی خوب امروز را نوشتم"]}
+];
+var fa=function(n){try{return Number(n).toLocaleString("fa-IR")}catch(e){return String(n)}};
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+
+// week (starts Saturday)
+var now=new Date(), off=(now.getDay()+1)%7;
+var start=new Date(now.getFullYear(),now.getMonth(),now.getDate()-off);
+var end=new Date(start.getFullYear(),start.getMonth(),start.getDate()+6);
+var pad=function(n){return(n<10?"0":"")+n};
+var KEY="wkchk:"+start.getFullYear()+pad(start.getMonth()+1)+pad(start.getDate());
+var fmt;try{fmt=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{day:"numeric",month:"long"})}catch(e){fmt={format:function(d){return d.toLocaleDateString()}}}
+var weekLabel="از "+fmt.format(start)+" تا "+fmt.format(end);
+document.getElementById("wk").textContent=weekLabel;
+
+// state
+var S={t:{},n1:"",n2:""};
+try{var raw=store(KEY);if(raw)S=JSON.parse(raw)}catch(e){}
+S.t=S.t||{};
+function save(){store(KEY,JSON.stringify(S))}
+var nm=document.getElementById("nm");
+nm.value=store("wkchk:name")||"";
+nm.addEventListener("input",function(){store("wkchk:name",nm.value)});
+var n1=document.getElementById("n1"),n2=document.getElementById("n2");
+n1.value=S.n1||"";n2.value=S.n2||"";
+n1.addEventListener("input",function(){S.n1=n1.value;save()});
+n2.addEventListener("input",function(){S.n2=n2.value;save()});
+
+// render
+var secsEl=document.getElementById("secs"),refs=[];
+SECS.forEach(function(sec,si){
+  var box=document.createElement("section");box.className="sec";box.style.setProperty("--c",sec.c);
+  var h=document.createElement("h2"),ht=document.createElement("span"),hc=document.createElement("em");
+  ht.textContent=sec.t;h.appendChild(ht);h.appendChild(hc);box.appendChild(h);
+  var secRef={hc:hc,rows:[]};
+  sec.h.forEach(function(txt,hi){
+    var id=si+"_"+hi;if(!S.t[id])S.t[id]=[0,0,0,0,0,0,0];
+    var row=document.createElement("div");row.className="habit";
+    var top=document.createElement("div");top.className="top";
+    var lab=document.createElement("span");lab.textContent=txt;
+    var cnt=document.createElement("small");top.appendChild(lab);top.appendChild(cnt);row.appendChild(top);
+    var days=document.createElement("div");days.className="days";
+    for(var d=0;d<7;d++){(function(d){
+      var b=document.createElement("button");b.type="button";b.className="chip"+(d===off?" today":"");
+      b.setAttribute("aria-pressed",S.t[id][d]?"true":"false");
+      b.setAttribute("aria-label",txt+" — "+DAYS[d]);
+      var i=document.createElement("i"),s=document.createElement("span");s.textContent=SHORT[d];
+      b.appendChild(i);b.appendChild(s);
+      b.addEventListener("click",function(){
+        S.t[id][d]=S.t[id][d]?0:1;
+        b.setAttribute("aria-pressed",S.t[id][d]?"true":"false");
+        save();update();
+      });
+      days.appendChild(b);
+    })(d)}
+    row.appendChild(days);box.appendChild(row);
+    secRef.rows.push({id:id,cnt:cnt});
+  });
+  refs.push(secRef);secsEl.appendChild(box);
+});
+
+function sum(a){return a.reduce(function(x,y){return x+y},0)}
+function update(){
+  var total=0,max=0;
+  refs.forEach(function(sr){
+    var s=0,m=sr.rows.length*7;
+    sr.rows.forEach(function(r){var c=sum(S.t[r.id]);s+=c;r.cnt.textContent=fa(c)+" از ۷"});
+    sr.hc.textContent=fa(s)+" از "+fa(m);total+=s;max+=m;
+  });
+  var p=Math.round(total/max*100);
+  document.getElementById("ring").style.setProperty("--p",p);
+  document.getElementById("pct").textContent=fa(p)+"٪";
+  document.getElementById("pcnt").textContent=fa(total)+" از "+fa(max)+" تیک این هفته";
+  var m=p===0?"شروع کن، اولین تیک را بزن!":p<30?"شروع خوبی است، ادامه بده!":p<60?"داری پیشرفت می‌کنی، عالیه!":p<85?"خیلی خوب پیش می‌روی، آفرین!":"فوق‌العاده‌ای! همین ریتم را نگه دار";
+  document.getElementById("pmsg").textContent=m;
+  return {total:total,max:max,p:p};
+}
+update();
+
+// buttons
+var msg=document.getElementById("msg"),out=document.getElementById("out");
+function say(t){msg.textContent=t}
+function summary(){
+  var r=update(),L=[];
+  L.push("چک‌لیست هفتگی — گروه مشاور سروش حسینی");
+  L.push("نام: "+(nm.value.trim()||"—"));
+  L.push("هفته: "+weekLabel);
+  L.push("امتیاز کل: "+fa(r.total)+" از "+fa(r.max)+" ("+fa(r.p)+"٪)");
+  SECS.forEach(function(sec,si){
+    var s=0;sec.h.forEach(function(x,hi){s+=sum(S.t[si+"_"+hi])});
+    L.push("• "+sec.t+": "+fa(s)+" از "+fa(sec.h.length*7));
+  });
+  if(S.n1&&S.n1.trim())L.push("بزرگ‌ترین موفقیتم: "+S.n1.trim());
+  if(S.n2&&S.n2.trim())L.push("هفته‌ی آینده: "+S.n2.trim());
+  return L.join("\n");
+}
+function fallback(t){out.style.display="block";out.value=t;out.focus();out.select();say("متن بالا را کپی کن و برای مشاور بفرست.")}
+document.getElementById("share").addEventListener("click",function(){
+  var t=summary();
+  if(!nm.value.trim()){say("اول اسمت را بنویس 🙂");nm.focus();return}
+  var url="https://t.me/soroush1236?text="+encodeURIComponent(t);
+  try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).catch(function(){})}catch(e){}
+  var a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+  msg.textContent="تلگرام باز می‌شود. اگر متن خودکار نیامد، پیست کن (کپی شده است). اگر باز نشد: ";
+  var l=document.createElement("a");l.href=url;l.target="_blank";l.rel="noopener";l.textContent="اینجا بزن";l.style.color="#5B54D6";msg.appendChild(l);
+});
+document.getElementById("print").addEventListener("click",function(){
+  try{window.print()}catch(e){say("چاپ در این مرورگر در دسترس نیست؛ از صفحه اسکرین‌شات بگیر.")}
+});
+var rs=document.getElementById("reset"),armed=0,tm;
+rs.addEventListener("click",function(){
+  if(!armed){armed=1;rs.classList.add("arm");rs.textContent="مطمئنی؟ دوباره بزن";tm=setTimeout(function(){armed=0;rs.classList.remove("arm");rs.textContent="شروع دوباره‌ی هفته"},3500);return}
+  clearTimeout(tm);S={t:{},n1:"",n2:""};save();location.reload();
+});
+})();
+</script>
+</body>
+</html>
